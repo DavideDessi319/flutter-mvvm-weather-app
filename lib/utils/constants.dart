@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Constants {
+  static const OPEN_WEATHER_API_KEY = '42c895268ae4184b9a894f9bf80fcff3';
+  static const OPEN_WEATHER_URL =
+      'https://api.openweathermap.org/data/2.5/weather?lat=51.507351&lon=-0.127758&appid=42c895268ae4184b9a894f9bf80fcff3&units=metric';
+  static const OPEN_WEATHER_ICON_URL = 'http://openweathermap.org/img/wn/';
+  static const OPEN_WEATHER_ICON_SUFFIX = '@4x.png';
+
   static final Shader headlineGradient = const LinearGradient(
     colors: <Color>[
       Colors.white12,
