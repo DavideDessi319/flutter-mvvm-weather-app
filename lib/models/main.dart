@@ -7,10 +7,10 @@ class Main {
     required this.pressure,
     required this.humidity,
   });
-  late final double temp;
-  late final double feelsLike;
-  late final double tempMin;
-  late final double tempMax;
+  late final num temp;
+  late final num feelsLike;
+  late final num tempMin;
+  late final num tempMax;
   late final int pressure;
   late final int humidity;
 
