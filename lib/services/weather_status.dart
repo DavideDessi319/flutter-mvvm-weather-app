@@ -1,13 +1,13 @@
-class ResponseSuccess {
+class Success {
   final int statusCode;
   final dynamic data;
 
-  ResponseSuccess({required this.statusCode, required this.data});
+  Success({required this.statusCode, required this.data});
 }
 
-class ResponseError {
+class Failure {
   final int statusCode;
   final String message;
 
-  ResponseError({required this.statusCode, required this.message});
+  Failure({required this.statusCode, required this.message});
 }
