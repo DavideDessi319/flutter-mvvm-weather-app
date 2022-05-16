@@ -1,28 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather_app_alpian/utils/custom_theme.dart';
-import 'package:weather_app_alpian/view_models/weather_view_model.dart';
+import 'package:weather_app_alpian/services/weather_service.dart';
+import 'package:weather_app_alpian/services/weather_storage.dart';
+import 'package:weather_app_alpian/utils/theme/custom_theme.dart';
+import 'package:weather_app_alpian/utils/ui_states/scroll_state_provider.dart';
+import 'package:weather_app_alpian/view_models/current_weather_view_model.dart';
+import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 import 'package:weather_app_alpian/views/weather_main_view.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final WeatherServices weatherService = WeatherServices();
+  final WeatherStorage weatherStorage = WeatherStorage();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => WeatherViewModel())
+        ChangeNotifierProvider(
+          create: (context) => CurrentWeatherViewModel(
+            weatherServices: weatherService,
+            weatherStorage: weatherStorage,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ForecastViewModel(
+            weatherServices: weatherService,
+            weatherStorage: weatherStorage,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ScrollStateProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Weather App',
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.theme(context),
-        home: const WeatherMainView(),
+        home: WeatherMainView(),
       ),
     );
   }
