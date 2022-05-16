@@ -29,7 +29,7 @@
         <!--Web View Controller-->
         <scene sceneID="Mpy-Tj-mbb">
             <objects>
-                <viewController storyboardIdentifier="WebViewController" id="d6Q-Oi-Y4s" customClass="WebViewController" customModule="Runner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewController" modalPresentationStyle="fullScreen" interfaceStyle="light" id="d6Q-Oi-Y4s" customClass="WebViewController" customModule="Runner" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="rgO-XL-NAT"/>
                         <viewControllerLayoutGuide type="bottom" id="O90-RW-LJW"/>
