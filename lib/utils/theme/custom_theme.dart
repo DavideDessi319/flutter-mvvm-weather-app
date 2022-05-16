@@ -18,9 +18,9 @@ class CustomTheme {
                   letterSpacing: -0.3,
                   fontWeight: FontWeight.w500,
                 ),
-                headline5: const TextStyle(
+                headline5: TextStyle(
                   fontSize: 18,
-                  color: Colors.black,
+                  color: Colors.white.withOpacity(0.80),
                   letterSpacing: -0.3,
                   fontWeight: FontWeight.w500,
                 ),
@@ -28,7 +28,7 @@ class CustomTheme {
                   fontSize: 18,
                   color: Colors.white,
                   letterSpacing: -0.3,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w500,
                 ),
                 bodyText1: const TextStyle(
                   fontSize: 14,
