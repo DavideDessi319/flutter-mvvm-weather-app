@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -19,6 +20,16 @@ class WeatherServices {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       Weather currentWeather = Weather.fromJson(responseBody);
       return Success(statusCode: response.statusCode, data: currentWeather);
+    } on SocketException {
+      return Failure(
+          statusCode: 400,
+          message:
+              'Looks like you don\'t have internet connectivity, try again later. In the meantime, we\'re going to show you the latest available weather data');
+    } on TimeoutException {
+      return Failure(
+          statusCode: 400,
+          message:
+              'The page took too long to load, try again and check your internet connection. In the meantime, we\'re going to show you the latest available weather data');
     } on HttpException {
       return Failure(
           statusCode: 400, message: 'No internet connection, try again later');
@@ -41,6 +52,16 @@ class WeatherServices {
       List<Weather> currentForecast =
           Weather.weatherListFromJson(responseBody['list']);
       return Success(statusCode: response.statusCode, data: currentForecast);
+    } on SocketException {
+      return Failure(
+          statusCode: 400,
+          message:
+              'Looks like you don\'t have internet connectivity, try again later. In the meantime, we\'re going to show you the latest available weather data');
+    } on TimeoutException {
+      return Failure(
+          statusCode: 400,
+          message:
+              'The page took too long to load, try again and check your internet connection. In the meantime, we\'re going to show you the latest available weather data');
     } on HttpException {
       return Failure(
           statusCode: 400, message: 'No internet connection, try again later');

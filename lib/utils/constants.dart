@@ -31,4 +31,11 @@ class Constants {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
   );
+
+  static const lightShadow = BoxShadow(
+    color: Colors.black12,
+    offset: Offset(0, 4),
+    blurRadius: 8,
+    spreadRadius: 2,
+  );
 }
