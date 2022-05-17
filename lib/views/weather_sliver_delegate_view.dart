@@ -29,9 +29,12 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     final TextTheme textTheme = theme.textTheme;
     final double scrollPercentage = shrinkOffset / maxExtent;
     final CurrentWeatherViewModel currentWeatherViewModel =
-        Provider.of<CurrentWeatherViewModel>(context);
+        Provider.of<CurrentWeatherViewModel>(context, listen: true);
     final ForecastViewModel forecastViewModel =
-        Provider.of<ForecastViewModel>(context);
+        Provider.of<ForecastViewModel>(context, listen: true);
+
+    bool isRefreshing = currentWeatherViewModel.isLoadingCurrentWeather ||
+        forecastViewModel.isLoadingForecast;
 
     return Stack(
       children: [
@@ -42,7 +45,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           height: MediaQuery.of(context).size.height,
           child: Container(
             decoration: const BoxDecoration(
-              gradient: Constants.sunnyGradient,
+              gradient: Constants.nightGradient,
             ),
           ),
         ),
@@ -60,7 +63,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           right: 0,
           bottom: (-80 - scrollPercentage * 200).clamp(-200, -80),
           child: Image.asset(
-            'assets/background_images/sunny_background/sunny_midground.png',
+            'assets/background_images/night_background/night_midground.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -69,7 +72,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           right: 0,
           bottom: (-50 - scrollPercentage * 100).clamp(-100, -50),
           child: Image.asset(
-            'assets/background_images/sunny_background/sunny_foreground.png',
+            'assets/background_images/night_background/night_foreground.png',
             fit: BoxFit.cover,
           ),
         ),
@@ -83,7 +86,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                 .clamp(0, 0.8),
             child: Container(
               decoration: BoxDecoration(
-                color: Constants.sunnyGradient.colors[2],
+                color: Constants.nightGradient.colors[1],
               ),
             ),
           ),
@@ -153,13 +156,13 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                           Lottie.asset(
                             'assets/lottie/refresh_weather.json',
                             width: 20,
-                            animate: forecastViewModel.isLoadingForecast,
+                            animate: isRefreshing,
                           ),
                           const SizedBox(
                             width: 4,
                           ),
                           Text(
-                            'Refresh',
+                            isRefreshing ? 'Refreshing' : 'Refresh',
                             style: textTheme.subtitle1!
                                 .copyWith(color: Colors.black),
                           ),
@@ -183,13 +186,13 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                       style: textTheme.headline1!.copyWith(
                         foreground: Paint()
                           ..shader = Constants.headlineGradient,
-                        fontSize: (120 - scrollPercentage * 100).clamp(50, 120),
+                        fontSize: (120 - scrollPercentage * 120).clamp(50, 120),
                       ),
                     ),
                     Text(
                       'o',
                       style: textTheme.headline4!.copyWith(
-                        fontSize: (30 - scrollPercentage * 50).clamp(15, 30),
+                        fontSize: (30 - scrollPercentage * 70).clamp(15, 30),
                       ),
                     ),
                   ],
@@ -197,8 +200,8 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
               // Min Temperature
               Positioned(
-                top: (200 - scrollPercentage * 220).clamp(40, 200),
-                left: (16 + scrollPercentage * 100).clamp(16, 90),
+                top: (200 - scrollPercentage * 250).clamp(40, 200),
+                left: (16 + scrollPercentage * 110).clamp(16, 90),
                 child: Row(
                   children: [
                     Icon(
@@ -218,8 +221,8 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
               // Max Temperature
               Positioned(
-                top: (200 - scrollPercentage * 220).clamp(40, 200),
-                left: (108 + scrollPercentage * 100).clamp(108, 160),
+                top: (200 - scrollPercentage * 250).clamp(40, 200),
+                left: (108 + scrollPercentage * 90).clamp(108, 160),
                 child: Row(
                   children: [
                     Icon(
@@ -239,8 +242,8 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
               ),
               // Humidity
               Positioned(
-                top: (240 - scrollPercentage * 280).clamp(40, 240),
-                left: (16 + scrollPercentage * 290).clamp(16, 230),
+                top: (240 - scrollPercentage * 320).clamp(40, 240),
+                left: (16 + scrollPercentage * 350).clamp(16, 230),
                 child: Row(
                   children: [
                     Icon(
@@ -263,9 +266,9 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                 top: (40 - scrollPercentage * 120).clamp(8, 40),
                 right: (-20 + scrollPercentage * 50).clamp(-20, 8),
                 child: Image.network(
-                  Constants.OPEN_WEATHER_ICON_URL +
+                  Constants.openWeatherIconURL! +
                       currentWeatherViewModel.currentWeather!.weather[0].icon +
-                      Constants.OPEN_WEATHER_ICON_SUFFIX,
+                      Constants.openWeatherIconSuffix,
                   width: (200 - scrollPercentage * 200).clamp(80, 200),
                   errorBuilder: (_, __, ___) {
                     return const SizedBox();
@@ -324,6 +327,6 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
+    return true;
   }
 }

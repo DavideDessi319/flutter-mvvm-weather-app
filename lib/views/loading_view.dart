@@ -8,7 +8,6 @@ class LoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size displaySize = MediaQuery.of(context).size;
-    final ThemeData theme = Theme.of(context);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
