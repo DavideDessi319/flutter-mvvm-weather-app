@@ -6,7 +6,7 @@ import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 import 'package:weather_app_alpian/views/forecast_section_view.dart';
 import 'package:weather_app_alpian/views/loading_view.dart';
 import 'package:weather_app_alpian/views/weather_sliver_delegate_view.dart';
-import 'package:weather_app_alpian/widgets/custom_snackbar.dart';
+import 'package:weather_app_alpian/widgets/common/custom_snackbar.dart';
 
 class WeatherMainView extends StatelessWidget {
   WeatherMainView({Key? key}) : super(key: key);
@@ -44,22 +44,31 @@ class WeatherMainView extends StatelessWidget {
               }
               return true;
             },
-            child: CustomScrollView(
-              controller: _scrollController,
-              slivers: [
-                SliverPersistentHeader(
-                  delegate: WeatherPersistentHeaderDelegate(
-                    maxExtentValue: displaySize.height * 0.70,
-                    minExtentValue: 170,
-                  ),
-                  pinned: true,
-                  floating: false,
-                ),
-                const SliverToBoxAdapter(
-                  child: ForecastSectionView(),
-                ),
-              ],
-            ),
+            child: TweenAnimationBuilder(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+                tween: Tween<double>(begin: 0.3, end: 1),
+                builder: (context, double value, __) {
+                  return Opacity(
+                    opacity: value,
+                    child: CustomScrollView(
+                      controller: _scrollController,
+                      slivers: [
+                        SliverPersistentHeader(
+                          delegate: WeatherPersistentHeaderDelegate(
+                            maxExtentValue: displaySize.height * 0.70,
+                            minExtentValue: 170,
+                          ),
+                          pinned: true,
+                          floating: false,
+                        ),
+                        const SliverToBoxAdapter(
+                          child: ForecastSectionView(),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
           ),
           CustomSnackbar(
             isVisible: currentWeatherViewModel.error != null ||
