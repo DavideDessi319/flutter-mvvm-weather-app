@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:weather_app_alpian/helpers/forecast_helper.dart';
 import 'package:weather_app_alpian/models/weather.dart';
 import 'package:weather_app_alpian/services/weather_status.dart';
 import 'package:weather_app_alpian/utils/constants.dart';
@@ -10,7 +11,7 @@ import 'package:http/http.dart' as http;
 class WeatherServices {
   Future<Object> getCurrentWeather() async {
     try {
-      Uri apiUrl = Uri.parse(Constants.OPEN_WEATHER_CURRENT_URL);
+      Uri apiUrl = Uri.parse(Constants.openWeatherCurrentWeatherURL);
       http.Response response = await http.get(apiUrl);
       if (response.statusCode != 200) {
         return Failure(
@@ -40,7 +41,7 @@ class WeatherServices {
 
   Future<Object> getForecast() async {
     try {
-      Uri apiUrl = Uri.parse(Constants.OPEN_WEATHER_FORECAST_URL);
+      Uri apiUrl = Uri.parse(Constants.openWeatherForecastURL);
       http.Response response = await http.get(apiUrl);
 
       if (response.statusCode != 200) {
@@ -51,7 +52,9 @@ class WeatherServices {
       Map<String, dynamic> responseBody = jsonDecode(response.body);
       List<Weather> currentForecast =
           Weather.weatherListFromJson(responseBody['list']);
-      return Success(statusCode: response.statusCode, data: currentForecast);
+      List<Weather> groupedForecast =
+          ForecastHepler.groupForecastByDate(currentForecast);
+      return Success(statusCode: response.statusCode, data: groupedForecast);
     } on SocketException {
       return Failure(
           statusCode: 400,
