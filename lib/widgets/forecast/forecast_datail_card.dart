@@ -27,7 +27,7 @@ class _ForecastDetailCardState extends State<ForecastDetailCard>
     super.initState();
     _slideAnimationController = AnimationController(
       duration: Duration(milliseconds: 400 + widget.index * 200),
-      reverseDuration: Duration(milliseconds: 800 + widget.index * 100),
+      reverseDuration: Duration(milliseconds: 850 + widget.index * 100),
       vsync: this,
     );
     _slideAnimation = Tween<double>(begin: 0, end: -600.0).animate(
@@ -83,9 +83,9 @@ class _ForecastDetailCardState extends State<ForecastDetailCard>
               Row(
                 children: [
                   Image.network(
-                    Constants.OPEN_WEATHER_ICON_URL +
+                    Constants.openWeatherIconURL! +
                         widget.weather.weather[0].icon +
-                        Constants.OPEN_WEATHER_ICON_SUFFIX,
+                        Constants.openWeatherIconSuffix,
                     width: 65,
                     errorBuilder: (_, __, ___) {
                       return const SizedBox();
