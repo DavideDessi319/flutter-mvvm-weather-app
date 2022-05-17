@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app_alpian/services/weather_service.dart';
 import 'package:weather_app_alpian/services/weather_storage.dart';
@@ -8,8 +9,9 @@ import 'package:weather_app_alpian/view_models/current_weather_view_model.dart';
 import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 import 'package:weather_app_alpian/views/weather_main_view.dart';
 
-void main() {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(MyApp());
 }
 
