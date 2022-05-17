@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:weather_app_alpian/utils/native/method_channels.dart';
 import 'package:weather_app_alpian/utils/ui_states/scroll_state_provider.dart';
 import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
-import 'package:weather_app_alpian/widgets/forecast_card.dart';
-import 'package:weather_app_alpian/widgets/forecast_datail_card.dart';
+import 'package:weather_app_alpian/widgets/forecast/forecast_card.dart';
+import 'package:weather_app_alpian/widgets/forecast/forecast_datail_card.dart';
 
 class ForecastSectionView extends StatelessWidget {
   const ForecastSectionView({Key? key}) : super(key: key);
@@ -50,18 +50,17 @@ class ForecastSectionView extends StatelessWidget {
                   },
                 ).toList(),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: forecastViewModel.forecast.map(
-                  (weather) {
-                    int weatherIndex =
-                        forecastViewModel.forecast.indexOf(weather);
-                    return ForecastDetailCard(
-                      weather: weather,
-                      index: weatherIndex,
-                    );
-                  },
-                ).toList(),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: forecastViewModel.forecast.length,
+                itemBuilder: (context, index) {
+                  return ForecastDetailCard(
+                    weather: forecastViewModel.forecast[index],
+                    index: index,
+                  );
+                },
               ),
             ],
           ),
@@ -81,7 +80,7 @@ class ForecastSectionView extends StatelessWidget {
           ),
           CupertinoButton.filled(
             onPressed: () => MethodChannels.callNativeWebView(),
-            child: Text('Tap to know more',
+            child: Text('Tap to see the map of your zone',
                 textAlign: TextAlign.center, style: textTheme.subtitle1!),
           ),
           const SizedBox(

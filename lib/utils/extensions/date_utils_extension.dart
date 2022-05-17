@@ -15,4 +15,11 @@ extension DateUtilsExtension on DateUtils {
     final String formattedDate = dateFormatter.format(date);
     return formattedDate;
   }
+
+  static String timestampToStringDate(int timestamp) {
+    final DateFormat dateFormatter = DateFormat('dd/mm/yyyy');
+    DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    final String formattedDate = dateFormatter.format(date);
+    return formattedDate;
+  }
 }
