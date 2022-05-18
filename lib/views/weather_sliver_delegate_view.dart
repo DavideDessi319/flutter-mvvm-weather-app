@@ -4,6 +4,8 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_app_alpian/helpers/current_weather_helper.dart';
+import 'package:weather_app_alpian/models/background.dart';
 import 'package:weather_app_alpian/utils/constants.dart';
 import 'package:weather_app_alpian/utils/extensions/date_utils_extension.dart';
 import 'package:weather_app_alpian/utils/extensions/string_extensions.dart';
@@ -36,6 +38,12 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
     bool isRefreshing = currentWeatherViewModel.isLoadingCurrentWeather ||
         forecastViewModel.isLoadingForecast;
 
+    String currentWeatherStatus =
+        currentWeatherViewModel.currentWeather!.weather[0].main;
+    Background background = CurrentWeatherHelper.getCurrentWeatherBackground(
+      weatherStatus: currentWeatherStatus,
+    );
+
     return Stack(
       children: [
         Positioned(
@@ -44,8 +52,8 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           top: 0,
           height: MediaQuery.of(context).size.height,
           child: Container(
-            decoration: const BoxDecoration(
-              gradient: Constants.nightGradient,
+            decoration: BoxDecoration(
+              gradient: background.backgroundGradient,
             ),
           ),
         ),
@@ -54,7 +62,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           right: 0,
           bottom: (-100 - scrollPercentage * 150).clamp(-170, -100),
           child: Image.asset(
-            'assets/background_images/sunny_background/sunny_background.png',
+            'assets/background_images/' + background.foregroundImagePath,
             fit: BoxFit.cover,
           ),
         ), */
@@ -63,7 +71,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           right: 0,
           bottom: (-80 - scrollPercentage * 200).clamp(-200, -80),
           child: Image.asset(
-            'assets/background_images/night_background/night_midground.png',
+            'assets/background_images/${background.midgroundImagePath}',
             fit: BoxFit.cover,
           ),
         ),
@@ -72,7 +80,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
           right: 0,
           bottom: (-50 - scrollPercentage * 100).clamp(-100, -50),
           child: Image.asset(
-            'assets/background_images/night_background/night_foreground.png',
+            'assets/background_images/${background.foregroundImagePath}',
             fit: BoxFit.cover,
           ),
         ),
@@ -86,7 +94,7 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
                 .clamp(0, 0.8),
             child: Container(
               decoration: BoxDecoration(
-                color: Constants.nightGradient.colors[1],
+                color: background.backgroundGradient.colors[1],
               ),
             ),
           ),
