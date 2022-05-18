@@ -8,6 +8,11 @@ A UML representation of the architecture of the project is contained inside the 
 
 - /documentation/weather-app-docs.pdf
 
+### IMPORTANT
+
+Before running the app, rename the ".env.example" file to ".env".
+This file contains mandatory information to communicate with the OpenWeatherMap API
+
 The README is going to be divided in sections, each of them dedicated to a particular part of the development.
 The application has been developed using Flutter 3.0 and has been optimized for mobile devices on portrait mode.
 
