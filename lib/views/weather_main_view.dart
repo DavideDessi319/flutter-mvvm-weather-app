@@ -5,7 +5,7 @@ import 'package:weather_app_alpian/view_models/current_weather_view_model.dart';
 import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 import 'package:weather_app_alpian/views/forecast_section_view.dart';
 import 'package:weather_app_alpian/views/loading_view.dart';
-import 'package:weather_app_alpian/views/weather_sliver_delegate_view.dart';
+import 'package:weather_app_alpian/views/current_weather_section_view.dart';
 import 'package:weather_app_alpian/widgets/common/custom_snackbar.dart';
 
 class WeatherMainView extends StatelessWidget {
@@ -55,7 +55,7 @@ class WeatherMainView extends StatelessWidget {
                       controller: _scrollController,
                       slivers: [
                         SliverPersistentHeader(
-                          delegate: WeatherPersistentHeaderDelegate(
+                          delegate: CurrentWeatherSectionView(
                             maxExtentValue: displaySize.height * 0.70,
                             minExtentValue: 170,
                           ),

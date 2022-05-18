@@ -13,11 +13,11 @@ import 'package:weather_app_alpian/utils/painters/draggable_sheet_painter.dart';
 import 'package:weather_app_alpian/view_models/current_weather_view_model.dart';
 import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 
-class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
+class CurrentWeatherSectionView extends SliverPersistentHeaderDelegate {
   final double maxExtentValue;
   final double minExtentValue;
 
-  WeatherPersistentHeaderDelegate(
+  CurrentWeatherSectionView(
       {required this.maxExtentValue, required this.minExtentValue});
 
   @override
