@@ -21,6 +21,7 @@ class ForecastSectionView extends StatelessWidget {
     final Size displaySize = MediaQuery.of(context).size;
 
     return Container(
+      key: const Key('forecast-section'),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       constraints: BoxConstraints(minHeight: displaySize.height * 0.85),
       child: Column(

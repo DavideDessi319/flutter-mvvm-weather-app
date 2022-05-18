@@ -9,6 +9,7 @@ class LoadingView extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size displaySize = MediaQuery.of(context).size;
     return Scaffold(
+      key: const Key('loading-view'),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -23,16 +24,18 @@ class LoadingView extends StatelessWidget {
               ),
             ),
           ),
-          Column(
-            children: [
-              const SizedBox(
-                height: 80,
-              ),
-              Lottie.asset(
-                'assets/lottie/loading_weather.json',
-                width: displaySize.width * 0.8,
-              ),
-            ],
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 80,
+                ),
+                Lottie.asset(
+                  'assets/lottie/loading_weather.json',
+                  width: displaySize.width * 0.8,
+                ),
+              ],
+            ),
           )
         ],
       ),

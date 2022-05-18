@@ -41,8 +41,8 @@ class _ForecastCardState extends State<ForecastCard>
 
   @override
   void dispose() {
-    super.dispose();
     _slideAnimationController.dispose();
+    super.dispose();
   }
 
   @override

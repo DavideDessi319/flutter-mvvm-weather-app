@@ -38,6 +38,7 @@ class _CustomSnackbarState extends State<CustomSnackbar> {
           isVisible = false;
         }),
         child: Container(
+          key: const Key('custom-snackbar'),
           padding:
               const EdgeInsets.symmetric(horizontal: 16).copyWith(bottom: 40),
           child: Container(
