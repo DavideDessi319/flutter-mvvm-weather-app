@@ -6,7 +6,7 @@ class CurrentWeatherHelper {
       {required String weatherStatus}) {
     Background background;
 
-    if (DateTime.now().hour >= 20) {
+    if (DateTime.now().hour >= 19) {
       return background = const Background(
         backgroundGradient: Constants.nightGradient,
         backgroundImagePath: 'night_background/night_background.png',

@@ -57,15 +57,15 @@ class WeatherPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
             ),
           ),
         ),
-        /* Positioned(
+        Positioned(
           left: 0,
           right: 0,
-          bottom: (-100 - scrollPercentage * 150).clamp(-170, -100),
+          bottom: (-100 - scrollPercentage * 250).clamp(-300, -100),
           child: Image.asset(
-            'assets/background_images/' + background.foregroundImagePath,
+            'assets/background_images/${background.backgroundImagePath}',
             fit: BoxFit.cover,
           ),
-        ), */
+        ),
         Positioned(
           left: 0,
           right: 0,
