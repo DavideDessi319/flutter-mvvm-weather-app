@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class WeatherElement extends Equatable {
+  // coverage:ignore-start
   // ignore: prefer_const_constructors_in_immutables
   WeatherElement({
     required this.id,
@@ -8,6 +9,8 @@ class WeatherElement extends Equatable {
     required this.description,
     required this.icon,
   });
+  // coverage:ignore-end
+
   late final int id;
   late final String main;
   late final String description;

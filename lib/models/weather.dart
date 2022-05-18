@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:weather_app_alpian/models/main.dart';
 import 'package:weather_app_alpian/models/weather_element.dart';
@@ -9,6 +8,7 @@ class Weather extends Equatable {
   late final Main? main;
   late final int dt;
 
+  // coverage:ignore-start
   // ignore: prefer_const_constructors_in_immutables
   Weather({
     required this.weather,
@@ -16,6 +16,7 @@ class Weather extends Equatable {
     required this.dt,
     required this.name,
   });
+  // coverage:ignore-end
 
   Weather.fromJson(Map<String, dynamic> json) {
     weather = List.from(json['weather'])
@@ -39,14 +40,6 @@ class Weather extends Equatable {
       List<Weather>.from(
         response.map(
           (weather) => Weather.fromJson(weather),
-        ),
-      );
-
-  static String weatherListToJson(List<Weather> data) => json.encode(
-        List<dynamic>.from(
-          data.map(
-            (weather) => weather.toJson(),
-          ),
         ),
       );
 

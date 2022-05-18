@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class Main extends Equatable {
+  // coverage:ignore-start
   // ignore: prefer_const_constructors_in_immutables
   Main({
     required this.temp,
@@ -10,6 +11,8 @@ class Main extends Equatable {
     required this.pressure,
     required this.humidity,
   });
+  // coverage:ignore-end
+
   late final num temp;
   late final num feelsLike;
   late final num tempMin;
