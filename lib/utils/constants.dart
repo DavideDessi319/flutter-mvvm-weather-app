@@ -7,6 +7,8 @@ class Constants {
       dotenv.env['OPENWEATHERMAP_CURRENT_WEATHER_URL']! + openWeatherAPIKey!;
   static final String openWeatherForecastURL =
       dotenv.env['OPENWEATHERMAP_FORECAST_URL']! + openWeatherAPIKey!;
+
+  // coverage:ignore-start
   static final String? openWeatherIconURL =
       dotenv.env['OPENWEATHERMAP_ICON_URL'];
   static const String openWeatherIconSuffix = '@4x.png';
@@ -21,6 +23,7 @@ class Constants {
   ).createShader(
     const Rect.fromLTRB(0, 250, 150, 150),
   );
+  // coverage:ignore-end
 
   static const sunnyGradient = LinearGradient(
     colors: [
