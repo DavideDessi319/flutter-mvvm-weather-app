@@ -42,9 +42,11 @@ class CurrentWeatherSectionView extends SliverPersistentHeaderDelegate {
         currentWeatherViewModel.currentWeather!.weather[0].main;
     Background background = CurrentWeatherHelper.getCurrentWeatherBackground(
       weatherStatus: currentWeatherStatus,
+      hourOfDay: DateTime.now().hour,
     );
 
     return Stack(
+      key: const Key('current-weather-section'),
       children: [
         Positioned(
           left: 0,

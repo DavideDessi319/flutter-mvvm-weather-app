@@ -12,7 +12,8 @@ void main() {
       foregroundImagePath: 'sunny_background/sunny_foreground.png',
     );
     expect(
-      CurrentWeatherHelper.getCurrentWeatherBackground(weatherStatus: 'Clear'),
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Clear', hourOfDay: 10),
       background,
     );
   });
@@ -25,7 +26,8 @@ void main() {
       foregroundImagePath: 'cloudy_background/cloudy_foreground.png',
     );
     expect(
-      CurrentWeatherHelper.getCurrentWeatherBackground(weatherStatus: 'Clouds'),
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Clouds', hourOfDay: 10),
       background,
     );
   });
@@ -39,7 +41,7 @@ void main() {
     );
     expect(
       CurrentWeatherHelper.getCurrentWeatherBackground(
-          weatherStatus: 'Drizzle'),
+          weatherStatus: 'Drizzle', hourOfDay: 10),
       background,
     );
   });
@@ -52,7 +54,8 @@ void main() {
       foregroundImagePath: 'cloudy_background/cloudy_foreground.png',
     );
     expect(
-      CurrentWeatherHelper.getCurrentWeatherBackground(weatherStatus: 'Snow'),
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Snow', hourOfDay: 10),
       background,
     );
   });
@@ -65,7 +68,8 @@ void main() {
       foregroundImagePath: 'rainy_background/rainy_foreground.png',
     );
     expect(
-      CurrentWeatherHelper.getCurrentWeatherBackground(weatherStatus: 'Rain'),
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Rain', hourOfDay: 10),
       background,
     );
   });
@@ -79,7 +83,7 @@ void main() {
     );
     expect(
       CurrentWeatherHelper.getCurrentWeatherBackground(
-          weatherStatus: 'Thunderstorm'),
+          weatherStatus: 'Thunderstorm', hourOfDay: 10),
       background,
     );
   });
@@ -93,7 +97,24 @@ void main() {
       foregroundImagePath: 'cloudy_background/cloudy_foreground.png',
     );
     expect(
-      CurrentWeatherHelper.getCurrentWeatherBackground(weatherStatus: 'Haze'),
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Haze', hourOfDay: 10),
+      background,
+    );
+  });
+
+  test(
+      'When the current hour of the day is equals or after 19, return the night Background',
+      () {
+    Background background = const Background(
+      backgroundGradient: Constants.nightGradient,
+      backgroundImagePath: 'night_background/night_background.png',
+      midgroundImagePath: 'night_background/night_midground.png',
+      foregroundImagePath: 'night_background/night_foreground.png',
+    );
+    expect(
+      CurrentWeatherHelper.getCurrentWeatherBackground(
+          weatherStatus: 'Haze', hourOfDay: 19),
       background,
     );
   });

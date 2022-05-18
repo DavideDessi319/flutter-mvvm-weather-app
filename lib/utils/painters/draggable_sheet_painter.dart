@@ -9,15 +9,32 @@ class DraggableSheetPainter extends CustomPainter {
 
     Path path = Path();
     path.moveTo(0, size.height);
-    path.cubicTo(
-        -10, size.height * 0.8, 0, size.height * 0.5, 30, size.height * 0.4);
-    path.cubicTo(size.width * 0.15, size.height * 0.3, size.width * 0.3,
-        size.height * 0.52, size.width * 0.5, size.height * 0.5);
-    path.cubicTo(size.width * 0.8, size.height * 0.5, size.width * 0.8,
-        size.height * 0.3, size.width * 0.91, size.height * 0.35);
-    path.quadraticBezierTo(size.width, 30, size.width + 10, size.height);
+    path.lineTo(0, size.height * 0.4);
+    path.quadraticBezierTo(
+      size.width * 0.05,
+      size.height * 0.15,
+      size.width * 0.2,
+      size.height * 0.3,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.35,
+      size.height * 0.5,
+      size.width * 0.5,
+      size.height * 0.5,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.65,
+      size.height * 0.5,
+      size.width * 0.8,
+      size.height * 0.3,
+    );
+    path.quadraticBezierTo(
+      size.width * 0.95,
+      size.height * 0.15,
+      size.width,
+      size.height * 0.4,
+    );
     path.lineTo(size.width, size.height);
-
     path.close();
 
     canvas.drawPath(path, paint);

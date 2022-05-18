@@ -3,10 +3,10 @@ import 'package:weather_app_alpian/utils/constants.dart';
 
 class CurrentWeatherHelper {
   static Background getCurrentWeatherBackground(
-      {required String weatherStatus}) {
+      {required String weatherStatus, required int hourOfDay}) {
     Background background;
 
-    if (DateTime.now().hour >= 19) {
+    if (hourOfDay >= 19) {
       return background = const Background(
         backgroundGradient: Constants.nightGradient,
         backgroundImagePath: 'night_background/night_background.png',
