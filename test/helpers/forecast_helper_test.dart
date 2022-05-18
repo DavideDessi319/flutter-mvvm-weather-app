@@ -31,12 +31,4 @@ void main() {
       expect(groupedForecast, []);
     },
   );
-
-  /* test(
-    'When an element has an invalid date, catch the exception and return an empty list',
-    () async {
-      mockForecast.elementAt(0).dt = 33;
-      expect(ForecastHepler.groupForecastByDate(mockForecast), []);
-    },
-  ); */
 }
