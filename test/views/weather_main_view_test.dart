@@ -28,6 +28,7 @@ void main() {
   late MockWeatherStorage mockWeatherStorage;
   late Weather mockCurrentWeather;
   late List<Weather> mockForecast;
+  // ignore: unused_local_variable
   late http.Client httpClient;
 
   setUp(() async {

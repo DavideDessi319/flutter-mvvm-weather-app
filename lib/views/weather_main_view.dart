@@ -70,11 +70,7 @@ class WeatherMainView extends StatelessWidget {
                   );
                 }),
           ),
-          CustomSnackbar(
-            isVisible: currentWeatherViewModel.error != null ||
-                forecastViewModel.error != null,
-            errorMessage: currentWeatherViewModel.error,
-          )
+          const CustomSnackbar()
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app_alpian/utils/native/method_channels.dart';
-import 'package:weather_app_alpian/utils/ui_states/scroll_state_provider.dart';
 import 'package:weather_app_alpian/view_models/forecast_view_model.dart';
 import 'package:weather_app_alpian/widgets/forecast/forecast_card.dart';
 import 'package:weather_app_alpian/widgets/forecast/forecast_datail_card.dart';
@@ -16,8 +15,7 @@ class ForecastSectionView extends StatelessWidget {
     final TextTheme textTheme = theme.textTheme;
     final ForecastViewModel forecastViewModel =
         Provider.of<ForecastViewModel>(context);
-    final ScrollStateProvider scrollStateProvider =
-        Provider.of<ScrollStateProvider>(context);
+
     final Size displaySize = MediaQuery.of(context).size;
 
     return Container(
