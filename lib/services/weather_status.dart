@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+
 class Success {
   final int statusCode;
   final dynamic data;
@@ -5,9 +7,12 @@ class Success {
   Success({required this.statusCode, required this.data});
 }
 
-class Failure {
+class Failure extends Equatable {
   final int statusCode;
   final String message;
 
-  Failure({required this.statusCode, required this.message});
+  const Failure({required this.statusCode, required this.message});
+
+  @override
+  List<Object?> get props => [statusCode, message];
 }

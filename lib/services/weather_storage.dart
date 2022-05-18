@@ -4,10 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_alpian/models/weather.dart';
 
 class WeatherStorage {
-  Future saveCurrentWeatherToStorage(Weather weather) async {
+  Future saveCurrentWeatherToStorage({
+    required Weather weather,
+    required SharedPreferences sharedPreferences,
+  }) async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
       String encodedCurrentWeather = jsonEncode(weather);
       sharedPreferences.setString(
         'latest_current_weather',
@@ -18,10 +19,10 @@ class WeatherStorage {
     }
   }
 
-  Future<Weather?> getCurrentWeatherFromStorage() async {
+  Future<Weather?> getCurrentWeatherFromStorage({
+    required SharedPreferences sharedPreferences,
+  }) async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
       String? encodedCurrentWeather =
           sharedPreferences.getString('latest_current_weather');
       if (encodedCurrentWeather == null) {
@@ -37,10 +38,11 @@ class WeatherStorage {
     }
   }
 
-  Future saveForecastToStorage(List<Weather> forecast) async {
+  Future saveForecastToStorage({
+    required List<Weather> forecast,
+    required SharedPreferences sharedPreferences,
+  }) async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
       String encodedForecast = jsonEncode(forecast);
       sharedPreferences.setString(
         'latest_forecast',
@@ -51,10 +53,10 @@ class WeatherStorage {
     }
   }
 
-  Future<List<Weather>> getForecastFromStorage() async {
+  Future<List<Weather>> getForecastFromStorage({
+    required SharedPreferences sharedPreferences,
+  }) async {
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
       String? encodedForecast = sharedPreferences.getString('latest_forecast');
       if (encodedForecast == null) {
         return [];

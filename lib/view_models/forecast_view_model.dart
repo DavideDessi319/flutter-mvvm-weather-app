@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_alpian/models/weather.dart';
 import 'package:weather_app_alpian/services/weather_service.dart';
 import 'package:weather_app_alpian/services/weather_status.dart';
-
+import 'package:http/http.dart' as http;
 import '../services/weather_storage.dart';
 
 class ForecastViewModel extends ChangeNotifier {
@@ -15,19 +16,16 @@ class ForecastViewModel extends ChangeNotifier {
   ForecastViewModel({
     required WeatherServices weatherServices,
     required WeatherStorage weatherStorage,
+    required bool init,
   }) {
     _weatherServices = weatherServices;
     _weatherStorage = weatherStorage;
-    setForecast();
+    if (init) setForecast();
   }
 
   bool get isLoadingForecast => _isLoadingForecast;
   String? get error => _error;
   List<Weather> get forecast => _forecast;
-
-  void setIsLoadingCurrentWeather(bool isLoading) {
-    notifyListeners();
-  }
 
   void setIsLoadingForecast(bool isLoading) {
     _isLoadingForecast = isLoading;
@@ -41,11 +39,13 @@ class ForecastViewModel extends ChangeNotifier {
 
   Future<void> setForecast() async {
     setIsLoadingForecast(true);
-    Object response = await _weatherServices.getForecast();
+    http.Client httpClient = http.Client();
+    Object response =
+        await _weatherServices.getForecast(httpClient: httpClient);
     if (response is Success) {
       setError(null);
       _forecast = response.data as List<Weather>;
-      await _weatherStorage.saveForecastToStorage(_forecast);
+      await _saveForecastToStorage();
     }
     if (response is Failure) {
       setError(response.message);
@@ -56,8 +56,18 @@ class ForecastViewModel extends ChangeNotifier {
   }
 
   Future<void> _getForecastFromStorage() async {
-    List<Weather> storedForecast =
-        await _weatherStorage.getForecastFromStorage();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List<Weather> storedForecast = await _weatherStorage.getForecastFromStorage(
+      sharedPreferences: sharedPreferences,
+    );
     _forecast = storedForecast;
+  }
+
+  Future<void> _saveForecastToStorage() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await _weatherStorage.saveForecastToStorage(
+      forecast: _forecast,
+      sharedPreferences: sharedPreferences,
+    );
   }
 }

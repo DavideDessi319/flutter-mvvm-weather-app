@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_alpian/models/weather.dart';
 import 'package:weather_app_alpian/services/weather_service.dart';
 import 'package:weather_app_alpian/services/weather_status.dart';
 import 'package:weather_app_alpian/services/weather_storage.dart';
+import 'package:http/http.dart' as http;
 
 class CurrentWeatherViewModel extends ChangeNotifier {
   bool _isLoadingCurrentWeather = true;
@@ -14,10 +16,11 @@ class CurrentWeatherViewModel extends ChangeNotifier {
   CurrentWeatherViewModel({
     required WeatherServices weatherServices,
     required WeatherStorage weatherStorage,
+    required bool init,
   }) {
     _weatherServices = weatherServices;
     _weatherStorage = weatherStorage;
-    setCurrentWeather();
+    if (init) setCurrentWeather();
   }
 
   bool get isLoadingCurrentWeather => _isLoadingCurrentWeather;
@@ -36,11 +39,13 @@ class CurrentWeatherViewModel extends ChangeNotifier {
 
   Future<void> setCurrentWeather() async {
     setIsLoadingCurrentWeather(true);
-    Object response = await _weatherServices.getCurrentWeather();
+    http.Client httpClient = http.Client();
+    Object response =
+        await _weatherServices.getCurrentWeather(httpClient: httpClient);
     if (response is Success) {
       setError(null);
       _currentWeather = response.data as Weather;
-      await _weatherStorage.saveCurrentWeatherToStorage(_currentWeather!);
+      _saveCurrentWeatherToStorage();
     }
     if (response is Failure) {
       setError(response.message);
@@ -50,8 +55,17 @@ class CurrentWeatherViewModel extends ChangeNotifier {
   }
 
   Future<void> _getCurrentWeatherFromStorage() async {
-    Weather? storedCurrentWeather =
-        await _weatherStorage.getCurrentWeatherFromStorage();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Weather? storedCurrentWeather = await _weatherStorage
+        .getCurrentWeatherFromStorage(sharedPreferences: sharedPreferences);
     _currentWeather = storedCurrentWeather;
+  }
+
+  Future<void> _saveCurrentWeatherToStorage() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await _weatherStorage.saveCurrentWeatherToStorage(
+      weather: _currentWeather!,
+      sharedPreferences: sharedPreferences,
+    );
   }
 }

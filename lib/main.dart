@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CurrentWeatherViewModel(
+            init: true,
             weatherServices: weatherService,
             weatherStorage: weatherStorage,
           ),
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           create: (context) => ForecastViewModel(
             weatherServices: weatherService,
             weatherStorage: weatherStorage,
+            init: true,
           ),
         ),
         ChangeNotifierProvider(

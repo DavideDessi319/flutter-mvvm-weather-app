@@ -17,7 +17,6 @@ class ForecastHepler {
 
       // Removing the first element as it's the same as the current weather
       aggregatedForecast.removeAt(0);
-
       return aggregatedForecast;
     } catch (error) {
       return [];

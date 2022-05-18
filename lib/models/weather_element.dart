@@ -1,4 +1,7 @@
-class WeatherElement {
+import 'package:equatable/equatable.dart';
+
+class WeatherElement extends Equatable {
+  // ignore: prefer_const_constructors_in_immutables
   WeatherElement({
     required this.id,
     required this.main,
@@ -25,4 +28,12 @@ class WeatherElement {
     data['icon'] = icon;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        main,
+        description,
+        icon,
+      ];
 }

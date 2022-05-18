@@ -1,4 +1,7 @@
-class Main {
+import 'package:equatable/equatable.dart';
+
+class Main extends Equatable {
+  // ignore: prefer_const_constructors_in_immutables
   Main({
     required this.temp,
     required this.feelsLike,
@@ -33,4 +36,14 @@ class Main {
     data['humidity'] = humidity;
     return data;
   }
+
+  @override
+  List<Object?> get props => [
+        temp,
+        feelsLike,
+        tempMin,
+        tempMax,
+        pressure,
+        humidity,
+      ];
 }
