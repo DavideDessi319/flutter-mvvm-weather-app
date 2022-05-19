@@ -51,7 +51,7 @@ Overall it was a very interesting part to develop and very useful for may use ca
 ## Testing
 
 This was a first time with extensive Flutter testing and a fairly long time since I tested a system. I'm very pleased to say that I enjoyed going back to testing again, especially on the unit test side. Since in Alpian Tech you try to keep 100% coverage, I tried to met that standard and cover as many lines of code as possible.
-Widget testing was a little more complex to exectute correctly, especially since it's the very first time I approach to it. It's very possible that my exectution of the widget tests is not great in this project, but I'm very interested to take on this part of testing and master it as soon as possible.
+Widget testing was a little more complex to exectute correctly, especially since it's the very first time I approach to it. It's very possible that my exectution of the widget tests is not great in this project (I had some issues awaiting some of the animations to be finished), but I'm very interested to take on this part of testing and master it as soon as possible.
 
 ## Possible improvements and implementations
 

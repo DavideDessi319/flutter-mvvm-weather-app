@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_alpian/helpers/forecast_helper.dart';
 import 'package:weather_app_alpian/models/weather.dart';
 import 'package:weather_app_alpian/services/weather_status.dart';
@@ -30,6 +31,7 @@ void main() {
   late List<Weather> mockForecast;
   // ignore: unused_local_variable
   late http.Client httpClient;
+  late SharedPreferences sharedPreferences;
 
   setUp(() async {
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -44,7 +46,46 @@ void main() {
       jsonDecode(MockData.forecastJSON)['list'],
     );
     mockForecast = ForecastHepler.groupForecastByDate(mockForecast);
+    SharedPreferences.setMockInitialValues({});
+    sharedPreferences = await SharedPreferences.getInstance();
   });
+
+  void setupService() {
+    when(
+      () => mockWeatherStorage.saveCurrentWeatherToStorage(
+        weather: mockCurrentWeather,
+        sharedPreferences: sharedPreferences,
+      ),
+    ).thenAnswer(
+      (invocation) async => true,
+    );
+    when(
+      () => mockWeatherStorage.saveForecastToStorage(
+        forecast: mockForecast,
+        sharedPreferences: sharedPreferences,
+      ),
+    ).thenAnswer(
+      (invocation) async => true,
+    );
+  }
+
+  void setupServiceAndStorage() {
+    setupService();
+    when(
+      () => mockWeatherServices.getCurrentWeather(
+        httpClient: any(named: 'httpClient'),
+      ),
+    ).thenAnswer((invocation) async {
+      return Success(statusCode: 200, data: mockCurrentWeather);
+    });
+    when(
+      () => mockWeatherServices.getForecast(
+        httpClient: any(named: 'httpClient'),
+      ),
+    ).thenAnswer((invocation) async {
+      return Success(statusCode: 200, data: mockForecast);
+    });
+  }
 
   Widget createWUT() {
     return MultiProvider(
@@ -77,9 +118,10 @@ void main() {
   }
 
   // Loading View testing
-  /* testWidgets(
+  testWidgets(
       'When current weather or forecast data is loading, return the loading screen',
       (WidgetTester tester) async {
+    setupService();
     when(
       () => mockWeatherServices.getCurrentWeather(
         httpClient: any(named: 'httpClient'),
@@ -100,51 +142,73 @@ void main() {
     await tester.pumpWidget(createWUT());
     await tester.pump(const Duration(milliseconds: 800));
     expect(find.byKey(const Key('loading-view')), findsOneWidget);
-    await tester.pumpAndSettle();
+    await tester.pumpAndSettle(
+      const Duration(seconds: 2),
+      EnginePhase.build,
+      const Duration(minutes: 1),
+    );
   });
- */
+
   testWidgets(
       'When current weather or forecast data are loaded, return the main view containing the CurrentWeatherSectionView and the ForecastSectionView',
       (WidgetTester tester) async {
-    //initHttpClientReturn();
-    when(
-      () => mockWeatherServices.getCurrentWeather(
-        httpClient: any(named: 'httpClient'),
-      ),
-    ).thenAnswer((invocation) async {
-      return Success(statusCode: 200, data: mockCurrentWeather);
-    });
-    when(
-      () => mockWeatherServices.getForecast(
-        httpClient: any(named: 'httpClient'),
-      ),
-    ).thenAnswer((invocation) async {
-      return Success(statusCode: 200, data: mockForecast);
-    });
-
+    setupServiceAndStorage();
     await tester.pumpWidget(createWUT());
     await tester.pump();
     expect(find.byKey(const Key('current-weather-section')), findsOneWidget);
     expect(find.byKey(const Key('forecast-section')), findsOneWidget);
   });
 
-  /* testWidgets(
-      'When there is no internet connection, return the stored data and show the CustomSnackbar with the error message',
+  testWidgets('When the user hasn\'t scrolled, show the Forecast in a row',
       (WidgetTester tester) async {
-    //initHttpClientReturn();
-    when(
-      () => mockWeatherServices.getCurrentWeather(
-        httpClient: any(named: 'httpClient'),
-      ),
-    ).thenThrow(const SocketException('No internet connection'));
-    when(
-      () => mockWeatherServices.getForecast(
-        httpClient: any(named: 'httpClient'),
-      ),
-    ).thenThrow(const SocketException('No internet connection'));
+    final forecastCard = find.byKey(const Key('forecast-card-1-opacity'));
+    final forecastDetailCard =
+        find.byKey(const Key('forecast-detail-card-1-opacity'));
+    setupServiceAndStorage();
 
     await tester.pumpWidget(createWUT());
-    await tester.pump();
-    expect(find.byKey(const Key('custom-snackbar')), findsOneWidget);
+    await tester.pump(const Duration(seconds: 2));
+
+    final forecastCardWidget =
+        tester.firstWidget<AnimatedOpacity>(forecastCard);
+    final forecastDetailCardWidget =
+        tester.firstWidget<AnimatedOpacity>(forecastDetailCard);
+
+    expect(forecastCardWidget.opacity, 1);
+    expect(forecastDetailCardWidget.opacity, 0);
+  });
+
+  // Last test created, I spent some time troubleshooting it and I think the problem
+  // is that it's not awaiting for the opacity animation to finish properly.
+  // Unfortunately the deadline was reached so I wasn't able to push a solution, but
+  // I'll continue to troubleshoot this problem on my own to be prepared in future cases.
+
+  /* testWidgets('When the user  scrolls, show the Forecast in a column',
+      (WidgetTester tester) async {
+    final forecastCard = find.byKey(const Key('forecast-card-1-opacity'));
+    final forecastDetailCard =
+        find.byKey(const Key('forecast-detail-card-1-opacity'));
+    setupServiceAndStorage();
+
+    await tester.pumpWidget(createWUT());
+    await tester.pump(const Duration(seconds: 2));
+
+    final forecastCardWidget =
+        tester.firstWidget<AnimatedOpacity>(forecastCard);
+    final forecastDetailCardWidget =
+        tester.firstWidget<AnimatedOpacity>(forecastDetailCard);
+
+    // Simulating scroll
+    await tester.dragUntilVisible(
+      forecastDetailCard,
+      find.byKey(const Key('custom-scrollview')),
+      const Offset(0, -500),
+    );
+    await tester.pumpAndSettle(
+      const Duration(seconds: 3),
+    );
+
+    expect(forecastCardWidget.opacity, 0);
+    expect(forecastDetailCardWidget.opacity, 1);
   }); */
 }
