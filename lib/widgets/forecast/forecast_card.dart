@@ -62,6 +62,7 @@ class _ForecastCardState extends State<ForecastCard>
     return Transform.translate(
       offset: Offset(0, _slideAnimation.value),
       child: AnimatedOpacity(
+        key: Key('forecast-card-${widget.index}-opacity'),
         duration: const Duration(milliseconds: 1000),
         opacity: scrollStateProvider.isSliverThresholdScrolled ? 0 : 1,
         curve: const Interval(0.6, 1, curve: Curves.decelerate),

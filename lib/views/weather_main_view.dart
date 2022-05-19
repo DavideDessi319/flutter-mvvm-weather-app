@@ -52,6 +52,7 @@ class WeatherMainView extends StatelessWidget {
                   return Opacity(
                     opacity: value,
                     child: CustomScrollView(
+                      key: const Key('custom-scrollview'),
                       controller: _scrollController,
                       slivers: [
                         SliverPersistentHeader(
