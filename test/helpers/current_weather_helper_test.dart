@@ -114,7 +114,7 @@ void main() {
     );
     expect(
       CurrentWeatherHelper.getCurrentWeatherBackground(
-          weatherStatus: 'Haze', hourOfDay: 19),
+          weatherStatus: 'Haze', hourOfDay: 20),
       background,
     );
   });

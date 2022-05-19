@@ -6,7 +6,9 @@ class CurrentWeatherHelper {
       {required String weatherStatus, required int hourOfDay}) {
     Background background;
 
-    if (hourOfDay >= 19) {
+    // Show the night background from 7PM to ~4:59AM
+    if ((hourOfDay >= 19 && hourOfDay <= 23) ||
+        (hourOfDay >= 0 && hourOfDay < 5)) {
       return background = const Background(
         backgroundGradient: Constants.nightGradient,
         backgroundImagePath: 'night_background/night_background.png',
