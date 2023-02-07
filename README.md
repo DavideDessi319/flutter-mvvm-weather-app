@@ -1,4 +1,4 @@
-# Davide Dessì Weather App Test Alpian
+# Davide Dessì Weather App
 
 ![Alt text](./documentation/app_images/cover_image.png?raw=true "Cover Image")
 
@@ -65,9 +65,3 @@ Widget testing was a little more complex to exectute correctly, especially since
 - Adding localization to automatically detect the position of the user and show it as the default weather.
 
 These are some of the implementations that I excluded from the development for the sake of time, as well as some ideas I had to improve the app in the future.
-
-### Thank you
-
-I want to thank Alpian and Alpian Tech for giving me the opportunity to perform this test and create this project.
-
-Thank you for reading.
