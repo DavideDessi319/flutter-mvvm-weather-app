@@ -1,4 +1,4 @@
-# Davide Dessì Weather App
+# Flutter MVVM Weather App (with complex animations)
 
 ![Alt text](./documentation/app_images/cover_image.png?raw=true "Cover Image")
 
